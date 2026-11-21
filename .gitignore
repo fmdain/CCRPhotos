@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.azurite/
+local.settings.json
+sortie/
+*.log
+.DS_Store

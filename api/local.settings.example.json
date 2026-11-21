@@ -1,0 +1,12 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "STORAGE_CONNECTION_STRING": "UseDevelopmentStorage=true",
+    "IP_HASH_SECRET": "secret-de-dev-a-changer",
+    "ACCESS_PASSWORD": "ccr",
+    "ACCESS_COOKIE_SECRET": "autre-secret-de-dev",
+    "TURNSTILE_SECRET": ""
+  }
+}

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Administration — Photos du CCR</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <header class="entete">
+    <a class="titre" href="/">Photos du CCR</a>
+    <nav>
+      <a href="/">Galerie</a>
+      <a href="/admin/">Administration</a>
+      <a href="/.auth/logout?post_logout_redirect_uri=/">Se déconnecter</a>
+    </nav>
+  </header>
+  <main>
+    <h1>Administration</h1>
+    <div class="onglets" role="tablist">
+      <button type="button" role="tab" data-onglet="photos" aria-selected="true">Photos et modération</button>
+      <button type="button" role="tab" data-onglet="televerser" aria-selected="false">Téléverser</button>
+      <button type="button" role="tab" data-onglet="contributions" aria-selected="false">Dernières contributions</button>
+      <button type="button" role="tab" data-onglet="retraits" aria-selected="false">Demandes de retrait <span id="nb-retraits"></span></button>
+      <button type="button" role="tab" data-onglet="export" aria-selected="false">Export</button>
+    </div>
+
+    <!-- Photos et modération -->
+    <section data-panneau="photos">
+      <div id="liste-photos-bloc">
+        <div class="filtres">
+          <select id="a-filtre-statut" aria-label="Statut">
+            <option value="">Tous les statuts</option>
+            <option value="a_identifier">À identifier</option>
+            <option value="partielle">Partiellement identifiées</option>
+            <option value="validee">Validées</option>
+            <option value="masquee">Masquées</option>
+            <option value="contribuees">Avec contributions</option>
+          </select>
+          <input type="search" id="a-recherche" placeholder="Nom de fichier, lot…" aria-label="Rechercher" style="max-width:18rem">
+          <span class="compteur" id="a-compteur"></span>
+        </div>
+        <div class="grille" id="a-grille"></div>
+      </div>
+      <div id="moderation" hidden></div>
+    </section>
+
+    <!-- Téléversement -->
+    <section data-panneau="televerser" hidden>
+      <p class="aide">Formats acceptés : JPEG, PNG, WebP (et tout format que votre navigateur sait afficher). Les miniatures et la version d'affichage sont générées dans votre navigateur ; l'original est conservé tel quel. Les TIFF ne peuvent pas être lus par les navigateurs : convertissez-les d'abord en JPEG.</p>
+      <label for="lot">Nom du lot <span class="aide">(facultatif, ex. « Carton 3 – années 70 »)</span></label>
+      <input type="text" id="lot" maxlength="100" style="max-width:30rem">
+      <div class="zone-depot" id="zone-depot" style="margin-top:1rem">
+        <p>Déposez des photos ici, ou</p>
+        <label class="bouton" style="display:inline-flex;margin:0">
+          Choisir des fichiers
+          <input type="file" id="fichiers" accept="image/*" multiple hidden>
+        </label>
+      </div>
+      <ul class="progression" id="progression"></ul>
+    </section>
+
+    <!-- Dernières contributions -->
+    <section data-panneau="contributions" hidden>
+      <div class="filtres">
+        <label for="jours" style="margin:0">Période</label>
+        <select id="jours" style="width:auto">
+          <option value="7">7 derniers jours</option>
+          <option value="30" selected>30 derniers jours</option>
+          <option value="365">12 derniers mois</option>
+        </select>
+      </div>
+      <div class="tableau" id="table-contributions"></div>
+    </section>
+
+    <!-- Retraits -->
+    <section data-panneau="retraits" hidden>
+      <div class="tableau" id="table-retraits"></div>
+    </section>
+
+    <!-- Export -->
+    <section data-panneau="export" hidden>
+      <p>Exporte les valeurs validées de chaque photo (date, lieu, section, personnes avec leur cadre, commentaires validés). Le fichier JSON sert d'entrée au script ExifTool (voir le README) ; il contient des liens de téléchargement des originaux valables 24 heures.</p>
+      <label style="font-weight:400;display:flex;gap:.4rem;align-items:center"><input type="checkbox" id="exp-masquees"> Inclure les photos masquées</label>
+      <label style="font-weight:400;display:flex;gap:.4rem;align-items:center"><input type="checkbox" id="exp-toutes"> Inclure les photos sans aucune valeur validée</label>
+      <div class="boutons-ligne">
+        <a class="bouton" id="exp-json" href="/api/gestion/export?format=json">Télécharger le JSON</a>
+        <a class="bouton secondaire" id="exp-csv" href="/api/gestion/export?format=csv">Télécharger le CSV</a>
+      </div>
+    </section>
+    <div id="etat"></div>
+  </main>
+  <script type="module" src="/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+name: Déploiement Azure Static Web Apps
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches: [main]
+
+jobs:
+  tests:
+    if: github.event_name == 'push' || github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    name: Tests de l'API
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: api/package-lock.json
+      - run: npm ci
+        working-directory: api
+      - run: npm test
+        working-directory: api
+
+  build_and_deploy:
+    needs: tests
+    if: github.event_name == 'push' || github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    name: Construire et déployer
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          lfs: false
+      - name: Adapter les routes au mode d'accès
+        run: node outils/config-swa.mjs
+        env:
+          ACCESS_MODE: ${{ vars.ACCESS_MODE }}
+      - name: Déployer
+        id: deploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: upload
+          app_location: app
+          api_location: api
+          output_location: ""
+          skip_app_build: true
+
+  close_pull_request:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    name: Fermer l'environnement de prévisualisation
+    steps:
+      - name: Fermer
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          action: close

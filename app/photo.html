@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Photo — Photos du CCR</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <header class="entete">
+    <a class="titre" href="/">Photos du CCR</a>
+    <nav>
+      <a href="/" id="lien-retour">← Galerie</a>
+      <a href="/mentions.html">Données personnelles</a>
+    </nav>
+  </header>
+  <main>
+    <div id="etat"></div>
+    <div class="photo-page" id="page" hidden>
+      <section class="visionneuse" aria-label="Photo">
+        <div id="barre"></div>
+        <div id="visionneuse"></div>
+        <p class="aide" id="aide-annotation" hidden>
+          Touchez un visage pour placer un repère, ou faites glisser pour tracer un cadre. Saisissez ensuite le nom dans le formulaire.
+        </p>
+        <p class="aide"><a href="#" id="lien-retrait">Demander le retrait de cette photo ou d'un nom</a></p>
+      </section>
+
+      <section aria-label="Informations">
+        <div class="carte infos">
+          <h2 style="margin-top:0">Ce que l'on sait <span id="badge"></span></h2>
+          <div id="validees"></div>
+        </div>
+
+        <div class="carte" style="margin-top:1rem">
+          <h2 style="margin-top:0">Propositions en cours</h2>
+          <p class="aide">Vous êtes d'accord avec une proposition ? Cliquez sur « Je confirme ». Il faut <span id="n-votes">2</span> confirmations de personnes différentes pour qu'une information soit validée.</p>
+          <div id="propositions"></div>
+          <div id="retour-propositions"></div>
+        </div>
+
+        <form class="carte" id="formulaire" style="margin-top:1rem" novalidate>
+          <h2 style="margin-top:0">Ajouter ce que je sais</h2>
+          <p class="aide">Tous les champs sont facultatifs : renseignez seulement ce que vous savez.</p>
+
+          <label for="date">Date <span class="aide">(ex. : 12/06/1985, juin 1985, 1985, vers 1985, années 80)</span></label>
+          <input type="text" id="date" name="date" autocomplete="off" maxlength="100">
+          <div class="apercu-date" id="apercu-date" aria-live="polite"></div>
+
+          <label for="lieu">Lieu <span class="aide">(ex. : Stade municipal, Clermont, France)</span></label>
+          <input type="text" id="lieu" name="lieu" list="liste-lieux" autocomplete="off" maxlength="200">
+          <datalist id="liste-lieux"></datalist>
+
+          <label for="section">Section</label>
+          <select id="section" name="section">
+            <option value="">— Je ne sais pas —</option>
+          </select>
+          <div id="bloc-autre" hidden>
+            <label for="section-autre">Préciser la section</label>
+            <input type="text" id="section-autre" name="sectionAutre" maxlength="80">
+          </div>
+
+          <label>Personnes sur la photo</label>
+          <p class="aide" style="margin:0">Placez un repère sur chaque visage que vous reconnaissez, puis indiquez son nom.</p>
+          <ol class="liste-personnes" id="liste-personnes"></ol>
+          <button type="button" class="secondaire" id="ajouter-personne">＋ Placer un repère sur la photo</button>
+
+          <label for="commentaire">Commentaire <span class="aide">(événement, anecdote, source de l'information…)</span></label>
+          <textarea id="commentaire" name="commentaire" maxlength="2000"></textarea>
+
+          <h3>Qui êtes-vous ?</h3>
+          <div class="ligne">
+            <div>
+              <label for="prenom">Prénom *</label>
+              <input type="text" id="prenom" name="prenom" autocomplete="given-name" required maxlength="60">
+            </div>
+            <div>
+              <label for="nom">Nom *</label>
+              <input type="text" id="nom" name="nom" autocomplete="family-name" required maxlength="60">
+            </div>
+          </div>
+          <label for="email">Email <span class="aide">(facultatif, jamais affiché ; pour vous recontacter si besoin)</span></label>
+          <input type="email" id="email" name="email" autocomplete="email" maxlength="120">
+          <label style="font-weight:400;display:flex;gap:.4rem;align-items:center">
+            <input type="checkbox" id="memoriser"> Se souvenir de moi sur cet appareil
+          </label>
+
+          <div class="piege" aria-hidden="true">
+            <label for="site_web">Ne pas remplir</label>
+            <input type="text" id="site_web" name="site_web" tabindex="-1" autocomplete="off">
+          </div>
+          <div id="turnstile" style="margin-top:.75rem"></div>
+
+          <div id="retour-formulaire"></div>
+          <div class="boutons-ligne">
+            <button type="submit" id="envoyer">Envoyer</button>
+          </div>
+          <p class="aide">Votre prénom et l'initiale de votre nom peuvent apparaître à côté de vos commentaires validés. <a href="/mentions.html">En savoir plus</a>.</p>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <dialog id="dialogue-retrait">
+    <form method="dialog" id="form-retrait" novalidate>
+      <h2 style="margin-top:0">Demande de retrait</h2>
+      <p class="aide">Vous figurez sur cette photo, ou un proche ? Indiquez-nous ce que vous souhaitez retirer. La demande est traitée par les administrateurs du site.</p>
+      <label><input type="radio" name="type" value="photo" checked> Retirer la photo</label>
+      <label><input type="radio" name="type" value="nom"> Retirer un nom</label>
+      <div id="bloc-nom-concerne" hidden>
+        <label for="r-nom-concerne">Nom à retirer</label>
+        <input type="text" id="r-nom-concerne" name="nomConcerne" maxlength="100">
+      </div>
+      <label for="r-message">Message</label>
+      <textarea id="r-message" name="message" maxlength="2000"></textarea>
+      <div class="ligne">
+        <div><label for="r-prenom">Prénom *</label><input type="text" id="r-prenom" name="prenom" required></div>
+        <div><label for="r-nom">Nom *</label><input type="text" id="r-nom" name="nom" required></div>
+      </div>
+      <label for="r-email">Email * <span class="aide">(pour vous répondre)</span></label>
+      <input type="email" id="r-email" name="email" required>
+      <div class="piege" aria-hidden="true"><input type="text" name="site_web" tabindex="-1" autocomplete="off"></div>
+      <div id="retour-retrait"></div>
+      <div class="boutons-ligne">
+        <button type="submit" value="envoyer">Envoyer la demande</button>
+        <button type="button" class="secondaire" id="fermer-retrait">Annuler</button>
+      </div>
+    </form>
+  </dialog>
+
+  <footer class="pied"><a href="/mentions.html">Mentions et données personnelles</a></footer>
+  <script type="module" src="/js/photo.js"></script>
+</body>
+</html>

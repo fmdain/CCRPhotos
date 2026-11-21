@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Photos du CCR — galerie</title>
+  <meta name="description" content="Aidez-nous à identifier les anciennes photos du CCR de Clermont de l'Oise.">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <header class="entete">
+    <a class="titre" href="/">Photos du CCR</a>
+    <nav>
+      <a href="/">Galerie</a>
+      <a href="/mentions.html">Données personnelles</a>
+    </nav>
+  </header>
+  <main>
+    <h1>Aidez-nous à identifier les photos du club</h1>
+    <p class="aide">Une date, un lieu, un nom : chaque information compte. Cliquez sur une photo pour dire ce que vous savez. Une information est validée lorsque plusieurs personnes l'ont confirmée.</p>
+
+    <div class="filtres" role="group" aria-label="Filtres">
+      <div class="puces" id="filtre-statut">
+        <button type="button" class="puce" data-statut="" aria-pressed="true">Toutes</button>
+        <button type="button" class="puce" data-statut="a_identifier" aria-pressed="false">À identifier</button>
+        <button type="button" class="puce" data-statut="partielle" aria-pressed="false">Partiellement identifiées</button>
+        <button type="button" class="puce" data-statut="validee" aria-pressed="false">Validées</button>
+      </div>
+      <label for="filtre-section" class="piege">Section</label>
+      <select id="filtre-section" aria-label="Section">
+        <option value="">Toutes les sections</option>
+      </select>
+      <span class="compteur" id="compteur" aria-live="polite"></span>
+    </div>
+
+    <div id="etat"></div>
+    <div class="grille" id="grille"></div>
+  </main>
+  <footer class="pied">
+    <a href="/mentions.html">Mentions et données personnelles</a>
+  </footer>
+  <script type="module" src="/js/galerie.js"></script>
+</body>
+</html>

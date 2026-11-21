@@ -1,0 +1,19 @@
+{
+  "name": "ccr-photos",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Site collaboratif d'identification des photos anciennes du CCR (Clermont de l'Oise)",
+  "type": "module",
+  "scripts": {
+    "stockage": "azurite --silent --location .azurite --skipApiVersionCheck --loose",
+    "seed": "npm --prefix api run build && node dev/seed.mjs",
+    "dev": "swa start",
+    "test": "npm --prefix api test"
+  },
+  "devDependencies": {
+    "@azure/data-tables": "^13.3.0",
+    "@azure/static-web-apps-cli": "^2.0.2",
+    "@azure/storage-blob": "^12.26.0",
+    "azurite": "^3.33.0"
+  }
+}

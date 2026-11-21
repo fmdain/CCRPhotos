@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Accès — Photos du CCR</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <header class="entete">
+    <a class="titre" href="/">Photos du CCR</a>
+    <nav><a href="/mentions.html">Données personnelles</a></nav>
+  </header>
+  <main class="etroit">
+    <form class="carte" id="form" novalidate>
+      <h1>Accès réservé</h1>
+      <p>Ce site est réservé aux membres et anciens membres du club. Saisissez le mot de passe qui vous a été communiqué.</p>
+      <label for="mdp">Mot de passe</label>
+      <input type="password" id="mdp" autocomplete="current-password" required>
+      <div id="retour"></div>
+      <div class="boutons-ligne"><button type="submit">Entrer</button></div>
+      <p class="aide">Administrateur ? <a href="/.auth/login/aad?post_login_redirect_uri=/admin/">Se connecter</a></p>
+    </form>
+  </main>
+  <script type="module">
+    import { api, message } from "/js/commun.js";
+    const retourUrl = new URLSearchParams(location.search).get("retour") || "/";
+    const sur = retourUrl.startsWith("/") && !retourUrl.startsWith("//") ? retourUrl : "/";
+    document.getElementById("form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      try {
+        await api("acces", { methode: "POST", corps: { motDePasse: document.getElementById("mdp").value }, rediriger: false });
+        location.href = sur;
+      } catch (err) {
+        message(document.getElementById("retour"), err.message, "erreur");
+      }
+    });
+  </script>
+</body>
+</html>

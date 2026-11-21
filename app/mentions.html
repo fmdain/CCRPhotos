@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mentions et données personnelles — Photos du CCR</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <header class="entete">
+    <a class="titre" href="/">Photos du CCR</a>
+    <nav><a href="/">Galerie</a></nav>
+  </header>
+  <main class="etroit">
+    <h1>Mentions et données personnelles</h1>
+
+    <h2>Responsable et contact</h2>
+    <p>Ce site est édité par <strong data-conf="responsable">le club</strong>.
+      Pour toute question ou pour exercer vos droits : <a data-conf="email" href="#">adresse de contact</a>.</p>
+
+    <h2>Finalité</h2>
+    <p>Le site permet aux membres, anciens membres et familles du club de partager ce qu'ils savent sur les photos anciennes du club (date, lieu, section, personnes présentes, anecdotes), afin de documenter l'histoire du club et d'enregistrer les informations validées dans les fichiers des photos archivées.</p>
+    <p>La base légale est l'intérêt légitime du club à préserver et documenter son patrimoine, et votre consentement lorsque vous contribuez.</p>
+
+    <h2>Données collectées</h2>
+    <ul>
+      <li><strong>Vos contributions</strong> : les informations que vous saisissez sur une photo, y compris les noms des personnes que vous reconnaissez et la position de leur visage sur la photo.</li>
+      <li><strong>Votre identité</strong> : prénom et nom (obligatoires), email (facultatif). Votre email n'est jamais affiché. Votre prénom et l'initiale de votre nom peuvent apparaître à côté d'un commentaire validé.</li>
+      <li><strong>Une empreinte de votre adresse IP</strong> : l'adresse elle-même n'est pas conservée, seule une empreinte chiffrée irréversible sert à limiter le spam.</li>
+      <li>Si vous cochez « se souvenir de moi », votre prénom, nom et email sont mémorisés <em>uniquement dans votre navigateur</em>.</li>
+      <li>Les administrateurs se connectent avec un compte Microsoft ; aucun compte n'est demandé aux contributeurs.</li>
+    </ul>
+    <p>Aucune donnée n'est vendue ni transmise à des tiers. Les données sont hébergées par Microsoft Azure dans l'Union européenne.</p>
+
+    <h2>Durée de conservation</h2>
+    <p data-conf="conservation">Les contributions sont conservées tant que le site est en ligne.</p>
+
+    <h2>Vos droits</h2>
+    <p>Vous disposez d'un droit d'accès, de rectification, d'effacement et d'opposition sur les données vous concernant, y compris si vous apparaissez sur une photo. Sur chaque photo, le lien <em>« Demander le retrait de cette photo ou d'un nom »</em> permet de nous adresser une demande, qui sera traitée par les administrateurs. Vous pouvez aussi nous écrire à l'adresse de contact ci-dessus, et introduire une réclamation auprès de la CNIL (<a href="https://www.cnil.fr">cnil.fr</a>).</p>
+
+    <h2>Hébergement</h2>
+    <p>Microsoft Azure (Static Web Apps et Storage), Microsoft Ireland Operations Ltd, One Microsoft Place, South County Business Park, Leopardstown, Dublin 18, Irlande.</p>
+  </main>
+  <footer class="pied"><a href="/">Retour à la galerie</a></footer>
+  <script type="module">
+    import { config, preparerEntete } from "/js/commun.js";
+    preparerEntete();
+    config().then((c) => {
+      const r = document.querySelector('[data-conf="responsable"]');
+      const e = document.querySelector('[data-conf="email"]');
+      const d = document.querySelector('[data-conf="conservation"]');
+      if (c.contact?.responsable) r.textContent = c.contact.responsable;
+      if (c.contact?.email) { e.textContent = c.contact.email; e.href = "mailto:" + c.contact.email; }
+      if (c.conservation) d.textContent = c.conservation;
+    }).catch(() => {});
+  </script>
+</body>
+</html>

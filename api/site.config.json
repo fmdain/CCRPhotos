@@ -1,0 +1,35 @@
+{
+  "nomSite": "Photos du CCR — Clermont de l'Oise",
+  "sections": [
+    "Athlétisme",
+    "Basket-ball",
+    "Cyclisme",
+    "Football",
+    "Gymnastique",
+    "Handball",
+    "Judo",
+    "Natation",
+    "Tennis",
+    "Tennis de table",
+    "Volley-ball",
+    "Dirigeants / bureau"
+  ],
+  "consensus": {
+    "votesMinimum": 2,
+    "distancePersonnes": 0.05,
+    "tailleVisageParDefaut": 0.08
+  },
+  "antispam": {
+    "limiteEnvois": 10,
+    "fenetreMinutes": 10,
+    "turnstile": { "actif": false, "cleSite": "" }
+  },
+  "acces": {
+    "mode": "public"
+  },
+  "contact": {
+    "responsable": "Le bureau du CCR",
+    "email": "contact@exemple.fr"
+  },
+  "conservation": "Les contributions sont conservées tant que le site est en ligne. Les adresses IP ne sont jamais stockées en clair : seule une empreinte (hachage) est conservée 12 mois au plus pour lutter contre le spam."
+}

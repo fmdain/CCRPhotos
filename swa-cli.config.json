@@ -1,0 +1,15 @@
+{
+  "$schema": "https://aka.ms/azure/static-web-apps-cli/schema",
+  "configurations": {
+    "ccr-photos": {
+      "appLocation": "app",
+      "apiLocation": "api",
+      "outputLocation": ".",
+      "apiLanguage": "node",
+      "apiVersion": "20",
+      "apiBuildCommand": "npm run build",
+      "run": "",
+      "port": 4280
+    }
+  }
+}

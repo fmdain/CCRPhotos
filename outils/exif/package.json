@@ -1,0 +1,16 @@
+{
+  "name": "ccr-photos-exif",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Écrit les métadonnées validées dans des copies des photos, avec ExifTool",
+  "bin": {
+    "ccr-exif": "./ecrire-metadonnees.mjs"
+  },
+  "scripts": {
+    "ecrire": "node ecrire-metadonnees.mjs"
+  },
+  "dependencies": {
+    "@azure/storage-blob": "^12.26.0"
+  }
+}
